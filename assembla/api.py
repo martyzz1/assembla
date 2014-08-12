@@ -142,11 +142,12 @@ class API(object):
             urllib.urlencode(extra_params),
         )
 
-        print instance.data
+        data = instance.build_json_data()
+        print data
         # Fetch the data
         response = requests.post(
             url=url,
-            data=json.dumps(instance.data),
+            data=data,
             headers={
                 'X-Api-Key': self.key,
                 'X-Api-Secret': self.secret,

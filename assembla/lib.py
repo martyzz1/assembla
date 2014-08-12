@@ -1,4 +1,5 @@
 from functools import wraps
+import json
 
 
 class AssemblaObject(object):
@@ -22,6 +23,11 @@ class AssemblaObject(object):
 
     def get(self, *args, **kwargs):
         return self.data.get(*args, **kwargs)
+
+    def build_json_data(self):
+        namespace = self.namespace()
+        data = {namespace: self.data}
+        return json.dumps(data)
 
     def __repr__(self):
         # Most objects
