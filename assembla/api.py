@@ -143,8 +143,6 @@ class API(object):
         )
 
         data = instance.build_json_data()
-        print url
-        print data
         # Fetch the data
         response = requests.post(
             url=url,
@@ -202,7 +200,6 @@ class API(object):
         )
 
         # Fetch the data
-        print instance.data
         response = requests.put(
             url=url,
             data=json.dumps(instance.data),
@@ -511,7 +508,6 @@ class Ticket(AssemblaObject):
         rel_path=self.space._build_rel_path(
                   'tickets/%s/ticket_comments' % self['number']
               ),
-        print rel_path
 
         return self.api._get_json(
             TicketComment,
@@ -574,7 +570,6 @@ class TicketComment(AssemblaObject):
         Create or update the TicketComment on Assembla
         """
 
-        print self.data
         if not hasattr(self, 'ticket'):
             raise AttributeError("A TicketComment must have a 'ticket' attribute before you can write it to Assembla.")
 
