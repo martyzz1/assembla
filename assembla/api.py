@@ -142,6 +142,7 @@ class API(object):
             urllib.urlencode(extra_params),
         )
 
+        print instance.data
         # Fetch the data
         response = requests.post(
             url=url,
@@ -199,6 +200,7 @@ class API(object):
         )
 
         # Fetch the data
+        print instance.data
         response = requests.put(
             url=url,
             data=json.dumps(instance.data),
