@@ -29,6 +29,12 @@ class AssemblaObject(object):
         data = {namespace: self.data}
         return json.dumps(data)
 
+    def namespace(self):
+        if self.namespace:
+            return self.namespace
+        else:
+            return self.__class__.lower()
+
     def __repr__(self):
         # Most objects
         for field in ('menu_name', 'page_name', 'name',):
