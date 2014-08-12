@@ -143,6 +143,7 @@ class API(object):
         )
 
         data = instance.build_json_data()
+        print url
         print data
         # Fetch the data
         response = requests.post(
@@ -507,6 +508,11 @@ class Ticket(AssemblaObject):
         if extra_params:
             params.update(extra_params)
 
+        rel_path=self.space._build_rel_path(
+                  'tickets/%s/ticket_comments' % self['number']
+              ),
+        print rel_path
+
         return self.api._get_json(
             TicketComment,
             space=self,
@@ -549,8 +555,42 @@ class Ticket(AssemblaObject):
             rel_path=self.space._build_rel_path('tickets'),
         )
 
+    def _build_rel_path(self, to_append=None):
+        """
+        Build a relative path to the API endpoint
+        """
+        return '{0}/{1}/{2}'.format(
+            self.space._build_rel_path('tickets'),
+            self['number'],
+            to_append if to_append else ''
+        )
+
 
 class TicketComment(AssemblaObject):
+    _namespace = 'ticket_comment'
+
+    def write(self):
+        """
+        Create or update the TicketComment on Assembla
+        """
+
+        print self.data
+        if not hasattr(self, 'ticket'):
+            raise AttributeError("A TicketComment must have a 'ticket' attribute before you can write it to Assembla.")
+
+        if self.get('id'):  # Modifying an existing ticket
+            method = self.ticket.api._put_json
+        else:  # Creating a new ticket
+            method = self.ticket.api._post_json
+
+        return method(
+            self,
+            space=self.ticket.space,
+            rel_path=self.ticket.space._build_rel_path(
+                    'tickets/%s/ticket_comments' % self.ticket['number']
+            ),
+        )
+
     pass
 
 
