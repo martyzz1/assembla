@@ -30,10 +30,10 @@ class AssemblaObject(object):
         return json.dumps(data)
 
     def namespace(self):
-        if self.namespace:
-            return self.namespace
+        if hasattr(self, '_namespace'):
+            return self._namespace
         else:
-            return self.__class__.lower()
+            return self.__class__.__name__.lower()
 
     def __repr__(self):
         # Most objects
